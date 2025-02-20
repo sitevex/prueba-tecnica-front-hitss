@@ -12,7 +12,7 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label for="departamento" class="form-label fw-semibold fs-sm mb-1">Departamento:</label>
-              <select class="form-select rounded-1" name="departamento" id="departamento" required>
+              <select class="form-select rounded-1" [(ngModel)]="userForm.idDepartamento" name="departamento" id="departamento" required>
                 <option selected disabled value="">Seleccione un Departamento</option>
                 <option *ngFor="let department of departments" [value]="department.idDepartment">
                   {{ department.name }}
@@ -23,7 +23,7 @@
             </div>
             <div class="col-md-6">
               <label for="cargo" class="form-label fw-semibold fs-sm mb-1">Cargo:</label>
-              <select class="form-select rounded-1" name="cargo" id="cargo" required>
+              <select class="form-select rounded-1" [(ngModel)]="userForm.idCargo" name="cargo" id="cargo" required>
                 <option selected disabled value="">Seleccione un perfil</option>
                 <option *ngFor="let cargo of cargos" [value]="cargo.idCargo">
                   {{ cargo.name }}
@@ -35,49 +35,49 @@
 
             <div class="col-md-6">
               <label for="usuario" class="form-label fw-semibold fs-sm mb-1">Usuario:</label>
-              <input type="text" class="form-control rounded-1" name="usuario" id="usuario" required />
+              <input type="text" class="form-control rounded-1" [(ngModel)]="userForm.usuario" />
               <div class="invalid-feedback" id="usuarioError">
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="email" class="form-label fw-semibold fs-sm mb-1">Email:</label>
-              <input type="email" class="form-control rounded-1" name="email" id="email" required />
+              <input type="email" class="form-control rounded-1" [(ngModel)]="userForm.email" name="email" id="email" required />
               <div class="invalid-feedback" id="emailError">
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="primerNombre" class="form-label fw-semibold fs-sm mb-1">Primer Nombre:</label>
-              <input type="text" class="form-control rounded-1" name="primerNombre" id="primerNombre" required />
+              <input type="text" class="form-control rounded-1" [(ngModel)]="userForm.primerNombre" name="primerNombre" id="primerNombre" required />
               <div class="invalid-feedback" id="primerNombreError">
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="segundoNombre" class="form-label fw-semibold fs-sm mb-1">Segundo Nombre</label>
-              <input type="text" class="form-control rounded-1" name="segundoNombre" id="segundoNombre" required />
+              <input type="text" class="form-control rounded-1" [(ngModel)]="userForm.segundoNombre" name="segundoNombre" id="segundoNombre" required />
               <div class="invalid-feedback" id="segundoNombreError">
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="primerApellido" class="form-label fw-semibold fs-sm mb-1">Primer Apellido:</label>
-              <input type="text" class="form-control rounded-1" name="primerApellido" id="primerApellido" required />
+              <input type="text" class="form-control rounded-1" [(ngModel)]="userForm.primerApellido" name="primerApellido" id="primerApellido" required />
               <div class="invalid-feedback" id="primerApellidoError">
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="segundoApellido" class="form-label fw-semibold fs-sm mb-1">Segundo Apellido</label>
-              <input type="text" class="form-control rounded-1" name="segundoApellido" id="segundoApellido" required />
+              <input type="text" class="form-control rounded-1" [(ngModel)]="userForm.segundoApellido" name="segundoApellido" id="segundoApellido" required />
               <div class="invalid-feedback" id="segundoApellidoError">
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary rounded-0 px-4" id="registerButton" >Registrar</button>
+          <button type="button" class="btn btn-primary rounded-0 px-4" (click)="saveUser()" id="registerButton" >Registrar</button>
           <button type="button" class="btn btn-custom rounded-0 px-4" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
@@ -93,7 +93,7 @@
           <p class="text-start fs-sm mb-0">¿Está seguro de eliminar el usuario seleccionado?</p>
         </div>
         <div class="modal-footer border-0 pt-0">
-          <button type="button" class="btn btn-primary px-4" id="deleteButton">Aceptar</button>
+          <button type="button" class="btn btn-primary px-4" id="deleteButton" (click)="deleteUser()">Aceptar</button>
           <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
@@ -136,7 +136,7 @@
 
               <div class="ms-xxl-auto">
                 <button type="button" class="btn btn-custom fw-normal rounded-0" data-bs-toggle="modal"
-                  data-bs-target="#userModal" data-modo="addUsuario">Crear nuevo usuario</button>
+                  data-bs-target="#userModal" [attr.data-modo]="'addUsuario'" (click)="openModal($event)">Crear nuevo usuario</button>
               </div>
             </div>
           </div>
@@ -187,12 +187,12 @@
                         [attr.data-segundoApellido]="user.segundoApellido"
                         [attr.data-idDepartamento]="user.idDepartamento" [attr.data-departamento]="user.departamento"
                         [attr.data-idCargo]="user.idCargo" [attr.data-cargo]="user.cargo"
-                        [attr.data-email]="user.email">
+                        [attr.data-email]="user.email" (click)="openModal($event)">
                         <i class="bi bi-pencil-square"></i>
                         Editar
                       </button>
                       <button type="button" class="btn btn-razzmatazz px-4 rounded-1" data-bs-toggle="modal"
-                        data-bs-target="#deleteModal" [attr.data-idUsuario]="user.idUser">
+                        data-bs-target="#deleteModal" [attr.data-idUsuario]="user.idUser" (click)="openDeleteModal($event)">
                         <i class="bi bi-trash"></i>
                         Eliminar
                       </button>

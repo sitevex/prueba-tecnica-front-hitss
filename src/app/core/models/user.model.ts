@@ -1,16 +1,16 @@
 export interface User {
-    idUser: number;
+    idUser?: number;
     usuario: string;
     primerNombre: string;
-    segundoNombre: string;
+    segundoNombre?: string;
     primerApellido: string;
-    segundoApellido: string;
+    segundoApellido?: string;
     idDepartamento: number;
-    departamento: string;
     idCargo: number;
-    cargo: string;
     email: string;
-    created_at: string | null;
+    departamento?: any;
+    cargo?: any;
+    created_at?: string;
 }
 
 export interface Pagination {

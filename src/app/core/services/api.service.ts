@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 export class ApiService {
   private baseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   get<T>(endpoint: string, params?: any) {
     return this.http.get<T>(`${this.baseUrl}${endpoint}`, { params });
@@ -22,7 +22,12 @@ export class ApiService {
     return this.http.put<T>(`${this.baseUrl}${endpoint}`, body);
   }
 
-  delete<T>(endpoint: string) {
-    return this.http.delete<T>(`${this.baseUrl}${endpoint}`);
+  /* delete<T>(endpoint: string, body: any) {
+    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, body);
+  } */
+
+  delete<T>(endpoint: string, body: any) {
+    return this.http.request<T>('DELETE', `${this.baseUrl}${endpoint}`, { body });
   }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { UserService } from './core/services/user.service';
@@ -11,10 +11,11 @@ import { PositionService } from './core/services/position.service';
 import { Position } from './core/models/position.model';
 
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
@@ -22,14 +23,19 @@ export class AppComponent implements OnInit {
   title = 'prueba-tecnica-front-hitss';
 
   users: User[] = [];
+  selectedUserId: number | null = null;
   departments: Department[] = [];
   cargos: Position[] = [];
+  userForm: User = {} as User;
+  isEditing: boolean = false;
   isLoading: boolean = true;
   pageInfo: string = '';
   pagination: any = {};
 
   departmentCode: string = '';
   positionCode: string = ''; 
+
+  @ViewChild('userModal') userModal!: ElementRef;
 
   constructor(
     private userService: UserService,
@@ -131,6 +137,83 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       }
     );
+  }
+  
+  openModal(event: Event) {
+    const button = event.target as HTMLElement;
+    const mode = button.getAttribute('data-modo');
+  
+    if (mode === 'addUsuario') {
+      this.isEditing = false;
+      this.userForm = {
+        idUser: 0,
+        usuario: '',
+        primerNombre: '',
+        segundoNombre: '',
+        primerApellido: '',
+        segundoApellido: '',
+        idDepartamento: 0,
+        idCargo: 0,
+        email: '',
+        departamento: null,
+        cargo: null,
+        created_at: '',
+      };
+    } else if (mode === 'editUsuario') {
+      this.isEditing = true;
+      this.userForm = {
+        idUser: Number(button.getAttribute('data-idUsuario')) || 0,
+        usuario: button.getAttribute('data-usuario') || '',
+        primerNombre: button.getAttribute('data-primerNombre') || '',
+        segundoNombre: button.getAttribute('data-segundoNombre') || '',
+        primerApellido: button.getAttribute('data-primerApellido') || '',
+        segundoApellido: button.getAttribute('data-segundoApellido') || '',
+        idDepartamento: Number(button.getAttribute('data-idDepartamento')) || 0,
+        idCargo: Number(button.getAttribute('data-idCargo')) || 0,
+        email: button.getAttribute('data-email') || '',
+        departamento: null,
+        cargo: null,
+        created_at: button.getAttribute('data-createdAt') || '',
+      };
+    }
+  }
+  
+  saveUser() {
+    if (this.isEditing) {
+      this.userService.updateUser(this.userForm).subscribe(() => {
+        alert('Usuario actualizado correctamente');
+        this.loadUser();
+      });
+    } else {
+      this.userService.createUser(this.userForm).subscribe(() => {
+        alert('Usuario creado correctamente');
+        this.loadUser();
+      });
+    }
+  }
+  
+  openDeleteModal(event: Event) {
+    const button = event.target as HTMLElement;
+    this.selectedUserId = Number(button.getAttribute('data-idUsuario')) || null;
+  }
+
+  deleteUser() {
+    if (this.selectedUserId !== null) {
+      this.userService.deleteUser(this.selectedUserId).subscribe(
+        (response) => {
+          if (response.success) {
+            alert('Usuario eliminado correctamente');
+            this.loadUser(); // Recargar la lista de usuarios
+          } else {
+            alert('Error al eliminar el usuario');
+          }
+        },
+        (error) => {
+          console.error('Error al eliminar usuario', error);
+          alert('Ocurrió un error al intentar eliminar el usuario');
+        }
+      );
+    }
   }
   
 }
