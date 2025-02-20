@@ -1,0 +1,177 @@
+@charset "UTF-8";
+/* 
+ * PRUEBA - Template | Bootstrap Centro Médicos Template
+ * Copyright 2025 Company
+ * Theme Style
+ */
+/*! 
+  * Bootstrap v5.3.x ()
+  * Copyright 2011-2021 The Bootstrap Authors
+  * Copyrgiht 2011-2021 Twitter, Inc.
+  * Licensed under MIT()
+  */
+
+/* Custom Properties */
+:root {
+    --prub-bg-body: #F3F4F6;
+    --prub-text-body: #435370;
+    --prub-ghost: #C3C8D2;
+    --prub-gray-100: #EEEFF2;
+    --prub-mercury-200: #E0E2E6;
+    --prub-mystic-100: #E0E7EB;
+    --prub-white: #ffffff;
+    --prub-fruit-600: #159649;
+    --prub-razzmatazz-600: #E51156;
+}
+
+body {
+    background: var(--prub-bg-body) !important;
+    color: var(--prub-text-body) !important;
+}
+
+.bg-body {
+    background: var(--prub-bg-body) !important;
+}
+
+.text-table-body {
+    color: var(--prub-text-body) !important;
+}
+
+.border-bottom-body {
+    border-bottom: 2px solid var(--prub-ghost) !important;
+}
+
+.text-fruit {
+    color: var(--prub-fruit-600) !important;
+}
+
+.text-razzmatazz {
+    color: var(--prub-razzmatazz-600);
+}
+
+.btn-custom {
+    background-color: #E0E2E6;
+    color: #435370;
+    border: 2px solid transparent;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #d0d3da;
+    color: #2c3e50;
+}
+
+.btn-custom:active {
+    background-color: #bfc3cc !important;
+    border-color: transparent !important;
+    color: #2c3e50 !important;
+    transform: scale(0.98);
+}
+
+.btn-custom:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-custom:disabled {
+    background-color: #E0E2E6;
+    color: #9da3b1;
+    border-color: #c4c8d0;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Estilo para btn-fruit */
+.btn-fruit {
+    background-color: transparent;
+    color: var(--prub-fruit-600);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Hover, Active y Focus */
+.btn-fruit:hover,
+.btn-fruit:active,
+.btn-fruit:focus {
+    background-color: #C4F5D8 !important;
+    color: var(--prub-fruit-600) !important;
+    border: 1px solid var(--prub-fruit-600) !important;
+    outline: none;
+}
+
+/* Estilo para btn-razzmatazz */
+.btn-razzmatazz {
+    background-color: transparent;
+    color: var(--prub-razzmatazz-600);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Hover, Active y Focus */
+.btn-razzmatazz:hover,
+.btn-razzmatazz:active,
+.btn-razzmatazz:focus {
+    background-color: #F5DDDF !important;
+    color: var(--prub-razzmatazz-600) !important;
+    border: 1px solid var(--prub-razzmatazz-600) !important;
+    outline: none;
+}
+
+
+.btn-close:focus {
+    box-shadow: none;
+}
+
+.btn-custom-dropdown {
+    background-color: #E0E7EB;
+    color: #93A4C2;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-dropdown:hover {
+    background-color: #d6dde2;
+    color: #7c8ea9;
+    border-color: #93A4C2;
+}
+
+.btn-custom-dropdown:active,
+.btn-custom-dropdown:focus {
+    background-color: #c7d0d8 !important;
+    color: #627a99 !important;
+    border-color: #627a99 !important;
+    box-shadow: none;
+}
+
+/* .dropdown-menu {
+    background-color: #E0E7EB;
+    border: 1px solid #93A4C2;
+} */
+
+/* .dropdown-item {
+    color: #627a99;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+} */
+
+/* .dropdown-item:hover {
+    background-color: #d6dde2; 
+    color: #435370;
+} */
+
+.fs-sm {
+    font-size: 0.875rem;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
