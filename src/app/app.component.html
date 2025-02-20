@@ -179,9 +179,10 @@
                         data-bs-target="#userModal" [attr.data-modo]="'editUsuario'" [attr.data-idUsuario]="user.idUser"
                         [attr.data-usuario]="user.usuario" [attr.data-primerNombre]="user.primerNombre"
                         [attr.data-segundoNombre]="user.segundoNombre" [attr.data-primerApellido]="user.primerApellido"
-                        [attr.data-segundoApellido]="user.segundoApellido" [attr.data-idDepartamento]="user.idDepartamento"
-                        [attr.data-departamento]="user.departamento" [attr.data-idCargo]="user.idCargo"
-                        [attr.data-cargo]="user.cargo" [attr.data-email]="user.email">
+                        [attr.data-segundoApellido]="user.segundoApellido"
+                        [attr.data-idDepartamento]="user.idDepartamento" [attr.data-departamento]="user.departamento"
+                        [attr.data-idCargo]="user.idCargo" [attr.data-cargo]="user.cargo"
+                        [attr.data-email]="user.email">
                         <i class="bi bi-pencil-square"></i>
                         Editar
                       </button>
@@ -195,12 +196,25 @@
                 </tbody>
               </table>
             </div>
+            <!-- pagination -->
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
               <div class="col-auto d-flex">
-                <span class="fs-9" id="page-info-usuarios-lists"></span>
+                <span class="fs-9" id="page-info-usuarios-lists">{{ pageInfo }}</span>
               </div>
               <div class="col-auto d-flex">
-                <ul class="fs-9 mb-0 pagination align-items-center" id="paginationBodyUsuariosList"></ul>
+                <ul class="pagination mb-0 align-items-center">
+                  <li class="page-item">
+                    <button class="btn-sm page-link" [disabled]="!pagination.prev_page_url" (click)="prevPage()">
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                  </li>
+                  <li class="page-item mx-2">Página {{ pagination.current_page }} de {{ pagination.last_page }}</li>
+                  <li class="page-item">
+                    <button class="btn-sm page-link" [disabled]="!pagination.next_page_url" (click)="nextPage()">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

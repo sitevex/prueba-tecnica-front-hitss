@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
   users: User[] = [];
   departments: Department[] = [];
   isLoading: boolean = true;
+  pageInfo: string = '';
+  pagination: any = {};
 
   constructor(
     private userService: UserService,
@@ -39,6 +41,8 @@ export class AppComponent implements OnInit {
       .subscribe((response) => {
         if (response.success) {
           this.users = response.data.users;
+          this.pagination = response.pagination ?? {};
+          this.updatePageInfo();
         }
         this.isLoading = false;
       },
@@ -48,6 +52,49 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  updatePageInfo() {
+    this.pageInfo = `Mostrando ${this.pagination.from} - ${this.pagination.to} de ${this.pagination.total} registros`;
+  }
+
+  prevPage() {
+    if (this.pagination.prev_page_url) {
+      this.loadUserFromUrl(this.pagination.prev_page_url);
+    }
+  }
+  
+  nextPage() {
+    if (this.pagination.next_page_url) {
+      this.loadUserFromUrl(this.pagination.next_page_url);
+    }
+  }
+
+  loadUserFromUrl(url: string) {
+    this.isLoading = true;
+  
+    // Crear una URL con los parámetros actuales
+    const urlObj = new URL(url);
+    urlObj.searchParams.set('departmentCode', ''); // Asegúrate de obtener el valor real
+    urlObj.searchParams.set('positionCode', '');   // Asegúrate de obtener el valor real
+    urlObj.searchParams.set('paginate', 'true');
+    urlObj.searchParams.set('perPage', '2');
+  
+    this.userService.getUsersByUrl(urlObj.toString()).subscribe(
+      (response) => {
+        if (response.success) {
+          this.users = response.data.users;
+          this.pagination = response.pagination;
+          this.updatePageInfo();
+        }
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error al obtener usuarios', error);
+        this.isLoading = false;
+      }
+    );
+  }
+  
 
   loadDepartments() {
     this.departmentService

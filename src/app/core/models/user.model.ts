@@ -13,6 +13,17 @@ export interface User {
     created_at: string | null;
 }
 
+export interface Pagination {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    from: number;
+    to: number;
+    prev_page_url?: string;
+    next_page_url?: string;
+}
+
 export interface ApiResponse {
     code: number;
     success: boolean;
@@ -20,4 +31,5 @@ export interface ApiResponse {
     data: {
         users: User[];
     };
+    pagination?: Pagination;
 }
