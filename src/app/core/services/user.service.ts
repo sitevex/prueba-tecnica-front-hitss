@@ -12,6 +12,7 @@ export class UserService {
 
   constructor(private apiService: ApiService, private http: HttpClient) {}
 
+  // Obtener todos los usuarios
   getUsers(params?: any): Observable<ApiResponse> {
     return this.apiService.get<ApiResponse>(API_ENDPOINTS.USERS, params);
   }
@@ -19,5 +20,5 @@ export class UserService {
   getUsersByUrl(url: string): Observable<any> {
     return this.http.get<any>(url);
   }
-
+  
 }

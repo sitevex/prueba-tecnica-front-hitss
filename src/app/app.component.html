@@ -25,7 +25,9 @@
               <label for="cargo" class="form-label fw-semibold fs-sm mb-1">Cargo:</label>
               <select class="form-select rounded-1" name="cargo" id="cargo" required>
                 <option selected disabled value="">Seleccione un perfil</option>
-                <option>...</option>
+                <option *ngFor="let cargo of cargos" [value]="cargo.idCargo">
+                  {{ cargo.name }}
+                </option>
               </select>
               <div class="invalid-feedback" id="cargoError">
               </div>
@@ -75,7 +77,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary rounded-0 px-4" id="registerButton">Registrar</button>
+          <button type="button" class="btn btn-primary rounded-0 px-4" id="registerButton" >Registrar</button>
           <button type="button" class="btn btn-custom rounded-0 px-4" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
@@ -115,7 +117,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-department">
                   <li *ngFor="let department of departments">
-                    <a class="dropdown-item" href="#">{{ department.name }}</a>
+                    <a class="dropdown-item cursor-pointer" (click)="selectDepartment(department.idDepartment.toString())" [attr.data-id]="department.idDepartment.toString()">{{ department.name }}</a>
                   </li>
                 </ul>
               </div>
@@ -126,6 +128,9 @@
                   Seleccione un Cargo
                 </button>
                 <ul class="dropdown-menu dropdown-cargo">
+                  <li *ngFor="let cargo of cargos">
+                    <a class="dropdown-item cursor-pointer" (click)="selectPosition(cargo.idCargo.toString())" [attr.data-id]="cargo.idCargo.toString()">{{ cargo.name }}</a>
+                  </li>
                 </ul>
               </div>
 

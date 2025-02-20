@@ -7,6 +7,9 @@ import { User } from './core/models/user.model';
 import { DepartmentService } from './core/services/department.service';
 import { Department } from './core/models/department.model';
 
+import { PositionService } from './core/services/position.service';
+import { Position } from './core/models/position.model';
+
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,24 +23,59 @@ export class AppComponent implements OnInit {
 
   users: User[] = [];
   departments: Department[] = [];
+  cargos: Position[] = [];
   isLoading: boolean = true;
   pageInfo: string = '';
   pagination: any = {};
 
+  departmentCode: string = '';
+  positionCode: string = ''; 
+
   constructor(
     private userService: UserService,
-    private departmentService: DepartmentService
+    private departmentService: DepartmentService,
+    private positionService: PositionService,
   ) {}
 
   ngOnInit() {
     this.loadUser();
     this.loadDepartments();
+    this.loadPositions();
+  }
+
+  loadDepartments() {
+    this.departmentService
+      .getDepartments({ paginate: 'false', sortBy: 'id', sortDirection: 'asc' })
+      .subscribe((response) => {
+        this.departments = response.data.departments;
+      });
+  }
+
+  loadPositions() {
+    this.positionService
+      .getPositions({ paginate: 'false', sortBy: 'id', sortDirection: 'asc' })
+      .subscribe((response) => {
+        // console.log(response);
+        this.cargos = response.data.cargos;
+      });
+  }
+
+  // Establecer el departamento seleccionado
+  selectDepartment(departmentId: string) {
+    this.departmentCode = departmentId;
+    this.loadUser();
+  }
+
+  // Establecer el cargo seleccionado
+  selectPosition(positionId: string) {
+    this.positionCode = positionId;
+    this.loadUser();
   }
 
   loadUser() {
     this.isLoading = true;
     this.userService
-      .getUsers({ paginate: 'true', perPage:10, page:1, sortBy: 'id', sortDirection: 'asc' })
+      .getUsers({ departmentCode: this.departmentCode, positionCode: this.positionCode, paginate: 'true', perPage:10, page:1, sortBy: 'id', sortDirection: 'asc' })
       .subscribe((response) => {
         if (response.success) {
           this.users = response.data.users;
@@ -74,8 +112,8 @@ export class AppComponent implements OnInit {
   
     // Crear una URL con los parámetros actuales
     const urlObj = new URL(url);
-    urlObj.searchParams.set('departmentCode', ''); // Asegúrate de obtener el valor real
-    urlObj.searchParams.set('positionCode', '');   // Asegúrate de obtener el valor real
+    urlObj.searchParams.set('departmentCode', this.departmentCode);
+    urlObj.searchParams.set('positionCode', this.positionCode);
     urlObj.searchParams.set('paginate', 'true');
     urlObj.searchParams.set('perPage', '2');
   
@@ -95,12 +133,4 @@ export class AppComponent implements OnInit {
     );
   }
   
-
-  loadDepartments() {
-    this.departmentService
-      .getDepartments({ paginate: 'false', sortBy: 'id', sortDirection: 'asc' })
-      .subscribe((response) => {
-        this.departments = response.data.departments;
-      });
-  }
 }
